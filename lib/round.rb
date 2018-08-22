@@ -4,13 +4,13 @@ require './lib/guess.rb'
 class Round
   attr_reader :deck,
               :guesses,
-              :correct_count,
+              :number_correct,
               :top_card_counter
 
   def initialize(deck)
     @deck = deck
     @guesses = []
-    @correct_count = 0
+    @number_correct = 0
     @top_card_counter = 0
   end
 
@@ -25,10 +25,14 @@ class Round
     end
   end
 
-  def number_correct
+  def correct_count
     guesses.each do |guess|
-      @correct_count += 1 if guess.feedback == "Correct!"
+      @number_correct += 1 if guess.feedback == "Correct!"
     end
+  end
+
+  def percent_correct
+    (number_correct.to_f / guesses.count) * 100
   end
 
 end

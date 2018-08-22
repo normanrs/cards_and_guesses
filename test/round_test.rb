@@ -56,28 +56,30 @@ class RoundTest < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_number_correct
+  def test_correct_count
     card_1 = Card.new("3", "Hearts")
     card_2 = Card.new("4", "Clubs")
     deck = Deck.new([card_1, card_2])
     round = Round.new(deck)
     round.record_guess({value: "3", suit: "Hearts"})
     round.record_guess({value: "Jack", suit: "Diamonds"})
-    round.number_correct
-    actual = round.correct_count
+    round.correct_count
+    actual = round.number_correct
     expected = 1
     assert_equal expected, actual
-    binding.pry
   end
 
-  # def test_top_card_counter
-  #   card_1 = Card.new("3", "Hearts")
-  #   card_2 = Card.new("4", "Clubs")
-  #   deck = Deck.new([card_1, card_2])
-  #   round = Round.new(deck)
-  #   round.record_guess({value: "3", suit: "Hearts"})
-  #   assert_equal 0, (round.top_card_counter)
-  #   assert_equal 1, (round.top_card_counter)
-  # end
+  def test_percent_correct
+    card_1 = Card.new("3", "Hearts")
+    card_2 = Card.new("4", "Clubs")
+    deck = Deck.new([card_1, card_2])
+    round = Round.new(deck)
+    round.record_guess({value: "3", suit: "Hearts"})
+    round.record_guess({value: "Jack", suit: "Diamonds"})
+    round.correct_count
+    actual = round.percent_correct
+    expected = 50
+    assert_equal expected, actual
+  end
 
 end
