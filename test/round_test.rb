@@ -39,7 +39,10 @@ class RoundTest < Minitest::Test
     card_2 = Card.new("4", "Clubs")
     deck = Deck.new([card_1, card_2])
     round = Round.new(deck)
-    assert_instance_of Guess, round.record_guess({value: "3", suit: "Hearts"})
+    round.record_guess({value: "3", suit: "Hearts"})
+    actual = round.guesses.count
+    expected = 1
+    assert_equal expected, actual
   end
 
   def test_correct_guess
@@ -47,11 +50,36 @@ class RoundTest < Minitest::Test
     card_2 = Card.new("4", "Clubs")
     deck = Deck.new([card_1, card_2])
     round = Round.new(deck)
-    test_guess = round.record_guess({value: "3", suit: "Hearts"})
-    actual = (test_guess.card.value) + (test_guess.card.suit)
-    expected = "3Hearts"
+    round.record_guess({value: "3", suit: "Hearts"})
+    actual = round.guesses[0].response
+    expected = "3 of Hearts"
     assert_equal expected, actual
   end
 
+  def test_correct_count
+    card_1 = Card.new("3", "Hearts")
+    card_2 = Card.new("4", "Clubs")
+    deck = Deck.new([card_1, card_2])
+    round = Round.new(deck)
+    round.record_guess({value: "3", suit: "Hearts"})
+    round.record_guess({value: "Jack", suit: "Diamonds"})
+    round.correct_count
+    actual = round.number_correct
+    expected = 1
+    assert_equal expected, actual
+  end
+
+  def test_percent_correct
+    card_1 = Card.new("3", "Hearts")
+    card_2 = Card.new("4", "Clubs")
+    deck = Deck.new([card_1, card_2])
+    round = Round.new(deck)
+    round.record_guess({value: "3", suit: "Hearts"})
+    round.record_guess({value: "Jack", suit: "Diamonds"})
+    round.correct_count
+    actual = round.percent_correct
+    expected = 50
+    assert_equal expected, actual
+  end
 
 end
