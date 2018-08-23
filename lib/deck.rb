@@ -9,7 +9,6 @@ class Deck
 
   def count
     cards.count
-    # binding.pry
   end
 
   def sort
@@ -19,21 +18,19 @@ class Deck
                 "King" => 45, "Ace" => 49}
 
     suit_rank = {"Clubs" => 0, "Diamonds" => 1, "Hearts" => 2, "Spades" => 3}
-    sort_done = false
-    sorted = []
-    until sort_done == true
-      (cards.count - 1).times do
-      # cards.each_with_index do |card, place|
-      place = 0
+    sort_done = true
+    while sort_done
+      sort_done = false
+      (@cards.count - 1).times do |place|
+      # @cards.each_with_index do |card, place|
+        if (value_rank[@cards[place].value] + suit_rank[@cards[place].suit]) > (value_rank[@cards[place + 1].value] + suit_rank[@cards[place + 1].suit])
+          @cards[place], @cards[place + 1] = @cards[place + 1], @cards[place]
+          # cards.insert(place + 2, cards[place])
         sort_done = true
-        if (value_rank[cards[place].value] + suit_rank[cards[place].suit]) > (value_rank[cards[place + 1].value] + suit_rank[cards[place + 1].suit])
-          sort_done = false
-          cards.insert(place + 1, cards[place])
-          cards.delete_at(place)
         end
       place = place + 1
       end
     end
-    cards
+    return @cards
   end
 end
